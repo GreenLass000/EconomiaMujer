@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThemeProvider } from '@emotion/react';
 import './App.css';
 
-import theme from './theme';
+import theme from './theme.js';
 import DetailTable from './components/DetailTable';
 import InteractiveList from './components/Interactivelist';
 import ResponsiveAppBar from './components/AppBar';

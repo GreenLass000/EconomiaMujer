@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { lazy, Suspense, useState } from 'react';
 import axios from '../../api';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,10 +7,11 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemText from '@mui/material/ListItemText';
-import AddPersonDialog from './components/AddPersonDialog';
-import NewIncomeSpentDialog from './components/NewIncomeSpentDialog';
-import GenerateReportDialog from './components/GenerateReportDialog';
 import './menu_styles.css';
+
+const AddPersonDialog = lazy(() => import('./components/AddPersonDialog'));
+const NewIncomeSpentDialog = lazy(() => import('./components/NewIncomeSpentDialog'));
+const GenerateReportDialog = lazy(() => import('./components/GenerateReportDialog'));
 
 const ResponsiveAppBar = ({ onRefresh, currentYear, selectedYear, onYearSelect }) => {
     const [selectedDialog, setSelectedDialog] = useState(null);
@@ -103,27 +104,28 @@ const ResponsiveAppBar = ({ onRefresh, currentYear, selectedYear, onYearSelect }
                 )}
             </Menu>
 
-            <AddPersonDialog
-                open={selectedDialog === 0}
-                onClose={handleClose}
-                onSubmit={handleNewPersonFormSubmit}
-                onFinish={() => {
-                    onRefresh();
-                    handleClose();
-                }}
-                />
-
-            <NewIncomeSpentDialog
-                open={selectedDialog === 1}
-                onClose={handleClose}
-                onSubmit={handleNewIncomeSpentFormSubmit}
-                onFinish={handleNewIncomeSpentFinish}
-            />
-
-            <GenerateReportDialog
-                open={selectedDialog === 2}
-                onClose={handleClose}
-            />
+            <Suspense fallback={null}>
+                {selectedDialog === 0 && (
+                    <AddPersonDialog
+                        open
+                        onClose={handleClose}
+                        onSubmit={handleNewPersonFormSubmit}
+                        onFinish={() => {
+                            onRefresh();
+                            handleClose();
+                        }}
+                    />
+                )}
+                {selectedDialog === 1 && (
+                    <NewIncomeSpentDialog
+                        open
+                        onClose={handleClose}
+                        onSubmit={handleNewIncomeSpentFormSubmit}
+                        onFinish={handleNewIncomeSpentFinish}
+                    />
+                )}
+                {selectedDialog === 2 && <GenerateReportDialog open onClose={handleClose} />}
+            </Suspense>
         </>
     );
 };

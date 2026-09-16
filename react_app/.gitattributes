@@ -1,0 +1,9 @@
+# Store source files with Unix line endings on every platform.
+* text=auto eol=lf
+
+# Never subject binary assets to text conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary

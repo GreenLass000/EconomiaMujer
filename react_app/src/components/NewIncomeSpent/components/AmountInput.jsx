@@ -1,14 +1,14 @@
 import React from 'react';
 import { TextField } from '@mui/material';
 
-const AmountInput = ({ 
-    value, 
-    onChange, 
-    disabled = false, 
+const AmountInput = ({
+    value,
+    onChange,
+    disabled = false,
     label = "Cantidad",
     required = true,
     min = 0,
-    step = "any" 
+    step = "any"
 }) => (
     <TextField
         fullWidth

@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import axios from '../../api';
 import {
   Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 } from '@mui/material';
 import './detailtable_styles.css';
 import CustomTextBox from '../CustomTextBox';
-import DeleteDialog from './components/DeleteDialog';
-import EditDialog from './components/EditDialog';
 import FeedbackSnackbar from './components/FeedbackSnackbar';
 import TableBodyContent from './components/TableBodyContent';
 import { GridItem } from './styles';
+
+const DeleteDialog = lazy(() => import('./components/DeleteDialog'));
+const EditDialog = lazy(() => import('./components/EditDialog'));
 
 const DetailTable = ({ refreshKey, selectedYear }) => {
   const [detailData, setDetailData] = useState([]);
@@ -100,19 +101,24 @@ const DetailTable = ({ refreshKey, selectedYear }) => {
         </Table>
       </TableContainer>
 
-      <DeleteDialog
-        open={deleteDialogOpen}
-        onClose={() => setDeleteDialogOpen(false)}
-        onConfirm={handleDeleteConfirm}
-      />
-
-      <EditDialog
-        open={editDialogOpen}
-        onClose={() => setEditDialogOpen(false)}
-        onSave={handleEditSave}
-        record={editingRecord}
-        onChange={handleInputChange}
-      />
+      <Suspense fallback={null}>
+        {deleteDialogOpen && (
+          <DeleteDialog
+            open
+            onClose={() => setDeleteDialogOpen(false)}
+            onConfirm={handleDeleteConfirm}
+          />
+        )}
+        {editDialogOpen && (
+          <EditDialog
+            open
+            onClose={() => setEditDialogOpen(false)}
+            onSave={handleEditSave}
+            record={editingRecord}
+            onChange={handleInputChange}
+          />
+        )}
+      </Suspense>
 
       <FeedbackSnackbar
         snackbar={snackbar}
