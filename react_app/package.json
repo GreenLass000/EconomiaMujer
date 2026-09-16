@@ -17,7 +17,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "vite",
+    "start": "vite --port 3030 --strictPort",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run --passWithNoTests"

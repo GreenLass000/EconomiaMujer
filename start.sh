@@ -40,8 +40,8 @@ echo "Preparando frontend Vite..."
 cd "$FRONTEND_DIR"
 npm ci
 
-echo "Iniciando Vite en http://localhost:3000"
-npm run start -- --host 0.0.0.0 --port 3000 --strictPort &
+echo "Iniciando Vite en http://localhost:3030"
+npm run start -- --host 0.0.0.0 &
 FRONTEND_PID=$!
 
 echo "Aplicación iniciada. Pulsa Ctrl+C para detener ambos procesos."

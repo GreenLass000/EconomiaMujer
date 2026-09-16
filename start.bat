@@ -36,8 +36,8 @@ pushd "%FRONTEND_DIR%" || exit /b 1
 call npm ci || exit /b 1
 popd
 
-echo Iniciando Vite en http://localhost:3000
-start "Economia - Frontend" cmd /k "cd /d ""%FRONTEND_DIR%"" && npm run start -- --host 0.0.0.0 --port 3000 --strictPort"
+echo Iniciando Vite en http://localhost:3030
+start "Economia - Frontend" cmd /k "cd /d ""%FRONTEND_DIR%"" && npm run start -- --host 0.0.0.0"
 
 echo La aplicacion se ha iniciado en dos ventanas. No las cierres mientras la uses.
 endlocal
