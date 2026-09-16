@@ -65,7 +65,7 @@ const ResponsiveAppBar = ({ onRefresh, currentYear, selectedYear, onYearSelect }
             <AppBar position="sticky">
                 <Toolbar>
                     <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        Economía Comunidad Terapéutica · {selectedYear}
+                        Economía Mujer · {selectedYear}
                     </Typography>
                     <Button color="inherit" onClick={() => handleItemClick(0)}>Añadir Persona</Button>
                     <Button color="inherit" onClick={() => handleItemClick(1)}>Nuevo Ingreso/Gasto</Button>

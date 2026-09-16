@@ -9,6 +9,8 @@ venv.bak/
 # Archivos de configuración
 *.ini
 *.cfg
+.env
+!.env.example
 
 # Archivos compilados de Python
 *.py[cod]

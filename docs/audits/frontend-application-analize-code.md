@@ -1,4 +1,4 @@
-# Auditoría del frontend — EconomiaCT
+# Auditoría del frontend — Economía Mujer
 
 **Fecha:** 2026-07-30
 

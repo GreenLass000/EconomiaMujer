@@ -86,15 +86,15 @@ def generar_reporte_excel():
         if not persons:
             return jsonify({'error': 'No active persons found'}), 404
 
-        community_persons = [
+        programa_mujer_persons = [
             person for person in persons
-            if person.firstName.lower() == 'comunidad' and person.lastName.lower() == 'terapeutica'
+            if person.firstName.lower() == 'programa' and person.lastName.lower() == 'mujer'
         ]
         other_persons = [
             person for person in persons
-            if not (person.firstName.lower() == 'comunidad' and person.lastName.lower() == 'terapeutica')
+            if not (person.firstName.lower() == 'programa' and person.lastName.lower() == 'mujer')
         ]
-        ordered_persons = community_persons + sorted(other_persons, key=lambda person: (person.lastName.lower(), person.firstName.lower()))
+        ordered_persons = programa_mujer_persons + sorted(other_persons, key=lambda person: (person.lastName.lower(), person.firstName.lower()))
 
         reportes_por_persona = []
         for person in ordered_persons:

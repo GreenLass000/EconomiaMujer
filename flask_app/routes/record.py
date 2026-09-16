@@ -45,11 +45,11 @@ def add_record():
             return jsonify({'error': 'Person not found'}), 404
 
         if isconcertado:
-            comunidad_terapeutica_person = session.query(Person).filter_by(
-                firstName="Comunidad", lastName="Terapeutica").first()
-            if not comunidad_terapeutica_person:
-                return jsonify({'error': 'Comunidad Terapeutica person not found'}), 404
-            person_id = comunidad_terapeutica_person.id
+            programa_mujer_person = session.query(Person).filter_by(
+                firstName="Programa", lastName="Mujer").first()
+            if not programa_mujer_person:
+                return jsonify({'error': 'Programa Mujer person not found'}), 404
+            person_id = programa_mujer_person.id
 
         new_record = Record(
             person_id=person_id,

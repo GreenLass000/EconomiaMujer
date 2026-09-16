@@ -36,7 +36,7 @@ const InteractiveList = ({ refreshKey, selectedYear }) => {
 
   return (
     <div className="grid-item">
-      <CustomTextBox text={`Gastos Personales Usuarios · ${selectedYear}`} />
+      <CustomTextBox text={`Gastos Personales Usuarias · ${selectedYear}`} />
 
       <PersonTable
         persons={persons}

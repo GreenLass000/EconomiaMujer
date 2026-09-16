@@ -1,10 +1,30 @@
 from datetime import datetime
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text
+from sqlalchemy.engine import make_url
 from sqlalchemy.orm import sessionmaker
 from config import DATABASE_URI
 from models import Base, Person, IncomeList, SpentList
 
-# Crear el motor y la sesión de SQLAlchemy
+def ensure_database_exists():
+    """Crea la base de datos MySQL configurada cuando todavía no existe."""
+    url = make_url(DATABASE_URI)
+    if url.get_backend_name() != "mysql" or not url.database:
+        return
+
+    database_name = url.database.replace("`", "``")
+    server_engine = create_engine(url.set(database=None), isolation_level="AUTOCOMMIT")
+    try:
+        with server_engine.connect() as connection:
+            connection.execute(text(
+                f"CREATE DATABASE IF NOT EXISTS `{database_name}` "
+                "CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci"
+            ))
+    finally:
+        server_engine.dispose()
+
+
+# Crear la base, el motor y la sesión de SQLAlchemy.
+ensure_database_exists()
 engine = create_engine(DATABASE_URI)
 Session = sessionmaker(bind=engine)
 
@@ -22,32 +42,32 @@ def get_session():
 def init_db():
     """
     Inicializa la base de datos creando todas las tablas definidas en los modelos,
-    verifica o crea la persona Comunidad Terapeutica, verifica o crea los elementos de IncomeList y SpentList.
+    verifica o crea la persona Programa Mujer y los elementos de IncomeList y SpentList.
     """
     # Crear todas las tablas
     with engine.connect() as connection:
         Base.metadata.create_all(bind=engine)
 
-    # Crear la persona Comunidad Terapeutica si no existe
+    # Crear la persona Programa Mujer si no existe.
     with get_session() as session:
         try:
             # Comprobar si la persona existe
             person = session.query(Person).filter_by(
-                firstName="Comunidad", lastName="Terapeutica").first()
+                firstName="Programa", lastName="Mujer").first()
             if not person:
                 # Crear la persona si no existe
                 new_person = Person(
-                    firstName="Comunidad",
-                    lastName="Terapeutica",
+                    firstName="Programa",
+                    lastName="Mujer",
                     isconcertado=False,
                     isactive=True,
                     date_joined=datetime.utcnow()
                 )
                 session.add(new_person)
                 session.commit()
-                print("Persona 'Comunidad Terapeutica' creada.")
+                print("Persona 'Programa Mujer' creada.")
             else:
-                print("Persona 'Comunidad Terapeutica' ya existe.")
+                print("Persona 'Programa Mujer' ya existe.")
 
             # Comprobar si la tabla IncomeList está vacía
             income_list_count = session.query(IncomeList).count()

@@ -48,7 +48,7 @@ export const usePersons = () => {
 
       setPersons(
         withBalances.filter(p =>
-          !(p.firstName.toLowerCase() === 'comunidad' && p.lastName.toLowerCase() === 'terapeutica')
+          !(p.firstName.toLowerCase() === 'programa' && p.lastName.toLowerCase() === 'mujer')
         )
       );
     } catch (err) {

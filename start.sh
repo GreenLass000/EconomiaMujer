@@ -1,66 +1,48 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-# Lanzar la aplicación Flask
+set -Eeuo pipefail
 
-# Navegar al directorio de la aplicación Flask
-cd flask_app || exit
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BACKEND_DIR="$ROOT_DIR/flask_app"
+FRONTEND_DIR="$ROOT_DIR/react_app"
 
-# Crear un entorno virtual (opcional, si es necesario)
-echo "Creando entorno virtual..."
-python3 -m venv .venv
-if [ $? -ne 0 ]; then
-    exit 0
+cleanup() {
+  trap - EXIT INT TERM
+  kill "${BACKEND_PID:-}" "${FRONTEND_PID:-}" 2>/dev/null || true
+}
+
+trap cleanup EXIT INT TERM
+
+if [[ -s "$HOME/.nvm/nvm.sh" ]]; then
+  # shellcheck disable=SC1090
+  source "$HOME/.nvm/nvm.sh"
+  nvm use --silent --prefix "$FRONTEND_DIR"
 fi
 
-# Activar el entorno virtual
-echo "Activando entorno virtual..."
+command -v python3 >/dev/null || { echo "No se encontró python3." >&2; exit 1; }
+command -v node >/dev/null || { echo "No se encontró Node.js." >&2; exit 1; }
+command -v npm >/dev/null || { echo "No se encontró npm." >&2; exit 1; }
+
+echo "Preparando backend Flask..."
+cd "$BACKEND_DIR"
+if [[ ! -x .venv/bin/python ]]; then
+  python3 -m venv .venv
+fi
 source .venv/bin/activate
-if [ $? -ne 0 ]; then
-    exit 0
-fi
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 
-# Instalar dependencias (opcional, si es necesario)
-echo "Instalando dependencias de Flask..."
-pip install -r requirements.txt
-if [ $? -ne 0 ]; then
-    exit 0
-fi
+echo "Iniciando Flask en http://localhost:5000"
+python index.py &
+BACKEND_PID=$!
 
-# Lanzar la aplicación Flask
-echo "Iniciando la aplicación Flask..."
-gnome-terminal -- bash -c "python3 index.py; exec bash"
+echo "Preparando frontend Vite..."
+cd "$FRONTEND_DIR"
+npm ci
 
-# Esperar unos segundos para asegurarnos de que la aplicación Flask está corriendo
-sleep 5
+echo "Iniciando Vite en http://localhost:3000"
+npm run start -- --host 0.0.0.0 --port 3000 --strictPort &
+FRONTEND_PID=$!
 
-# Navegar al directorio de la aplicación React
-cd ../react_app || exit
-
-# Instalar dependencias de React (opcional, si es necesario)
-echo "Instalando dependencias de React..."
-npm install
-if [ $? -ne 0 ]; then
-    exit 0
-fi
-
-# Instalar serve globalmente siempre
-echo "Instalando o actualizando serve globalmente..."
-npm install -g serve
-if [ $? -ne 0 ]; then
-    echo "Fallo al instalar serve. Verifica permisos y conexión a internet."
-    exit 0
-fi
-
-# Construir la aplicación React
-echo "Construyendo la aplicación React..."
-npm run build
-if [ $? -ne 0 ]; then
-    exit 0
-fi
-
-# Lanzar la aplicación React usando serve
-echo "Iniciando la aplicación React..."
-gnome-terminal -- bash -c "serve -s build; exec bash"
-
-# Pausar para mantener la terminal abierta (opcional)
-read -p "Presiona cualquier tecla para continuar..."
+echo "Aplicación iniciada. Pulsa Ctrl+C para detener ambos procesos."
+wait -n "$BACKEND_PID" "$FRONTEND_PID"

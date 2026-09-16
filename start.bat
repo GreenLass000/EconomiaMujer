@@ -1,54 +1,43 @@
 @echo off
-REM Lanzar la aplicación Flask
+setlocal
 
-REM Navegar al directorio de la aplicación Flask
-cd flask_app
+set "ROOT_DIR=%~dp0"
+set "BACKEND_DIR=%ROOT_DIR%flask_app"
+set "FRONTEND_DIR=%ROOT_DIR%react_app"
 
-REM Crear un entorno virtual (opcional, si es necesario)
-echo Creando entorno virtual...
-python -m venv .venv
-if %ERRORLEVEL% NEQ 0 exit /b 0
-
-REM Activar el entorno virtual
-echo Activando entorno virtual...
-call .venv\Scripts\activate
-if %ERRORLEVEL% NEQ 0 exit /b 0
-
-REM Instalar dependencias (opcional, si es necesario)
-echo Instalando dependencias de Flask...
-call pip install -r requirements.txt
-if %ERRORLEVEL% NEQ 0 exit /b 0
-
-REM Lanzar la aplicación Flask en una nueva terminal
-echo Iniciando la aplicación Flask...
-start cmd /k "python index.py"
-
-REM Esperar unos segundos para asegurarnos de que la aplicación Flask está corriendo
-timeout /t 5
-
-REM Navegar al directorio de la aplicación React
-cd ..\react_app
-
-REM Instalar dependencias de React (opcional, si es necesario)
-echo Instalando dependencias de React...
-call npm install
-if %ERRORLEVEL% NEQ 0 exit /b 0
-
-REM Instalar serve globalmente siempre
-echo Instalando o actualizando serve globalmente...
-call npm install -g serve
-if %ERRORLEVEL% NEQ 0 (
-    echo Fallo al instalar serve. Verifica permisos y conexión a internet.
-    exit /b 0
+where python >nul 2>nul || (
+  echo No se encontro Python en PATH.
+  exit /b 1
+)
+where node >nul 2>nul || (
+  echo No se encontro Node.js en PATH.
+  exit /b 1
+)
+where npm >nul 2>nul || (
+  echo No se encontro npm en PATH.
+  exit /b 1
 )
 
-REM Construir la aplicación React
-echo Construyendo la aplicación React...
-call npm run build
-if %ERRORLEVEL% NEQ 0 exit /b 0
+echo Preparando backend Flask...
+pushd "%BACKEND_DIR%" || exit /b 1
+if not exist ".venv\Scripts\python.exe" (
+  python -m venv .venv || exit /b 1
+)
+call .venv\Scripts\activate.bat || exit /b 1
+python -m pip install --upgrade pip || exit /b 1
+python -m pip install -r requirements.txt || exit /b 1
+popd
 
-REM Lanzar la aplicación React usando serve en una nueva terminal
-echo Iniciando la aplicación React...
-start cmd /k "serve -s build"
+echo Iniciando Flask en http://localhost:5000
+start "Economia - Backend" cmd /k "cd /d ""%BACKEND_DIR%"" && call .venv\Scripts\activate.bat && python index.py"
 
-pause
+echo Preparando frontend Vite...
+pushd "%FRONTEND_DIR%" || exit /b 1
+call npm ci || exit /b 1
+popd
+
+echo Iniciando Vite en http://localhost:3000
+start "Economia - Frontend" cmd /k "cd /d ""%FRONTEND_DIR%"" && npm run start -- --host 0.0.0.0 --port 3000 --strictPort"
+
+echo La aplicacion se ha iniciado en dos ventanas. No las cierres mientras la uses.
+endlocal

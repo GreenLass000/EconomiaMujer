@@ -78,7 +78,7 @@ const DetailTable = ({ refreshKey, selectedYear }) => {
 
   return (
     <GridItem>
-      <CustomTextBox text={`Caja Comunidad Terapéutica · ${selectedYear}`} />
+      <CustomTextBox text={`Caja Programa Mujer · ${selectedYear}`} />
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
