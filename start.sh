@@ -32,7 +32,7 @@ source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 
-echo "Iniciando Flask en http://localhost:5000"
+echo "Iniciando Flask en http://localhost:5005"
 python index.py &
 BACKEND_PID=$!
 

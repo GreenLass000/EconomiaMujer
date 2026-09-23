@@ -40,7 +40,7 @@ python -m pip install --upgrade pip || exit /b 1
 python -m pip install -r requirements.txt || exit /b 1
 popd
 
-echo Iniciando Flask en http://localhost:5000
+echo Iniciando Flask en http://localhost:5005
 start "Economia - Backend" cmd /k "cd /d ""%BACKEND_DIR%"" && call .venv\Scripts\activate.bat && python index.py"
 
 echo Preparando frontend Vite...
