@@ -13,6 +13,10 @@ where node >nul 2>nul || (
   echo No se encontro Node.js en PATH.
   exit /b 1
 )
+node -e "const [major, minor] = process.versions.node.split('.').map(Number); if (!((major === 20 && minor >= 19) || major >= 22 && (major > 22 || minor >= 12))) process.exit(1)" || (
+  echo Node.js no compatible. Instala la version 24.21.0 indicada en react_app\.nvmrc, o Node 20.19+ / 22.12+.
+  exit /b 1
+)
 where npm >nul 2>nul || (
   echo No se encontro npm en PATH.
   exit /b 1

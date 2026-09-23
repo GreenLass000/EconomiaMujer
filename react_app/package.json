@@ -2,6 +2,9 @@
   "name": "economia-mujer",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.19.0 <21 || >=22.12.0"
+  },
   "dependencies": {
     "@date-io/date-fns": "^2.17.0",
     "@emotion/react": "^11.11.4",

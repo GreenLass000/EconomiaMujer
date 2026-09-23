@@ -1,9 +1,8 @@
 import axios from 'axios';
 
-// Route API calls through Vite's same-origin proxy to avoid browser CORS
-// restrictions when the frontend and Flask backend use different ports.
+// Flask-CORS allows browser requests from the frontend origin.
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL || `${window.location.protocol}//${window.location.hostname}:5000`,
 });
 
 export default api;
