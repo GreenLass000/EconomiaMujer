@@ -5,6 +5,12 @@ set "ROOT_DIR=%~dp0"
 set "BACKEND_DIR=%ROOT_DIR%flask_app"
 set "FRONTEND_DIR=%ROOT_DIR%react_app"
 
+where nvm >nul 2>nul
+if not errorlevel 1 (
+  echo Activando Node.js 24.21.0 para este proyecto...
+  call nvm use 24.21.0 || exit /b 1
+)
+
 where python >nul 2>nul || (
   echo No se encontro Python en PATH.
   exit /b 1
@@ -13,8 +19,10 @@ where node >nul 2>nul || (
   echo No se encontro Node.js en PATH.
   exit /b 1
 )
-node -e "const [major, minor] = process.versions.node.split('.').map(Number); if (!((major === 20 && minor >= 19) || major >= 22 && (major > 22 || minor >= 12))) process.exit(1)" || (
-  echo Node.js no compatible. Instala la version 24.21.0 indicada en react_app\.nvmrc, o Node 20.19+ / 22.12+.
+echo Node activo:
+node --version
+node -e "if (process.versions.node.split('.')[0] !== '24') process.exit(1)" || (
+  echo Node.js no compatible. Este proyecto necesita la version 24.21.0 indicada en react_app\.nvmrc.
   exit /b 1
 )
 where npm >nul 2>nul || (
