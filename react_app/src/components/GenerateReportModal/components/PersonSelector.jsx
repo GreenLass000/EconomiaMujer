@@ -3,6 +3,9 @@ import { TextField, MenuItem } from '@mui/material';
 
 const PersonSelector = ({ persons, value, onChange }) => (
   <TextField
+    id="report-person"
+    name="personId"
+    autoComplete="off"
     select
     label="Seleccionar Persona"
     value={value}

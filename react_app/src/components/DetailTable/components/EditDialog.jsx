@@ -6,25 +6,31 @@ const EditDialog = ({ open, onClose, onSave, record, onChange }) => (
     <DialogTitle>Editar Registro</DialogTitle>
     <DialogContent>
       <TextField
+        id="edit-record-concept"
         label="Concepto"
         name="concept"
+        autoComplete="off"
         value={record?.concept || ''}
         onChange={onChange}
         fullWidth
         margin="dense"
       />
       <TextField
+        id="edit-record-description"
         label="Descripción"
         name="description"
+        autoComplete="off"
         value={record?.description || ''}
         onChange={onChange}
         fullWidth
         margin="dense"
       />
       <TextField
+        id="edit-record-amount"
         label="Cantidad"
         name="amount"
         type="number"
+        autoComplete="off"
         value={record?.amount || ''}
         onChange={onChange}
         fullWidth

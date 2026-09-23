@@ -3,8 +3,9 @@ import { TextField, MenuItem } from '@mui/material';
 
 const PersonSelector = ({ value, onChange, personList, required = true }) => (
     <TextField
-        id="name"
-        name="name"
+        id="transaction-person"
+        name="person"
+        autoComplete="off"
         fullWidth
         select
         label="Nombre"

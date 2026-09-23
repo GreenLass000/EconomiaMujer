@@ -9,6 +9,9 @@ const EditPersonDialog = ({ open, data, setData, onClose, onSave }) => (
     <DialogTitle>Editar Persona</DialogTitle>
     <DialogContent>
       <TextField
+        id="edit-person-first-name"
+        name="firstName"
+        autoComplete="given-name"
         fullWidth
         label="Nombre"
         value={data.firstName}
@@ -16,6 +19,9 @@ const EditPersonDialog = ({ open, data, setData, onClose, onSave }) => (
         margin="normal"
       />
       <TextField
+        id="edit-person-last-name"
+        name="lastName"
+        autoComplete="family-name"
         fullWidth
         label="Apellidos"
         value={data.lastName}

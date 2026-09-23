@@ -81,6 +81,7 @@ const NewIncomeSpentModal = ({ onSubmit, onFinish, initialValues = defaultInitia
                 name="description"
                 fullWidth
                 label="Descripción"
+                autoComplete="off"
                 variant="outlined"
                 className="form-item"
                 value={formState.description ?? ''}

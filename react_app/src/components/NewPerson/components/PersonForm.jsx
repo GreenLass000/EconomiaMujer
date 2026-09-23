@@ -7,9 +7,10 @@ const PersonForm = ({ formState, onChange, onSubmit }) => (
   <form onSubmit={onSubmit} style={{ width: '100%' }}>
     <div className='form-item'>
       <TextField
-        id="firstName"
+        id="new-person-first-name"
         name="firstName"
         label="Nombre"
+        autoComplete="given-name"
         value={formState.firstName}
         onChange={(e) => onChange('firstName', e.target.value)}
         required
@@ -18,9 +19,10 @@ const PersonForm = ({ formState, onChange, onSubmit }) => (
     </div>
     <div className='form-item'>
       <TextField
-        id="lastName"
+        id="new-person-last-name"
         name="lastName"
         label="Apellidos"
+        autoComplete="family-name"
         value={formState.lastName}
         onChange={(e) => onChange('lastName', e.target.value)}
         required

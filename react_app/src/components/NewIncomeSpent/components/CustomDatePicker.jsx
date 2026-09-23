@@ -12,6 +12,9 @@ const CustomDatePicker = ({ value = null, onChange }) => (
             format="dd/MM/yyyy"
             slotProps={{
                 textField: {
+                    id: 'transaction-date',
+                    name: 'date',
+                    autoComplete: 'off',
                     fullWidth: true,
                 },
             }}

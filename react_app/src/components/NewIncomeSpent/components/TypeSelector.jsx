@@ -6,9 +6,10 @@ const TypeSelector = ({ value, onChange, options = [
     { value: 'gasto', label: 'Gasto' }
 ] }) => (
     <FormControl component="fieldset" style={{ marginTop: 16 }}>
-        <FormLabel component="legend">Tipo</FormLabel>
+        <FormLabel id="transaction-type-label" component="legend">Tipo</FormLabel>
         <RadioGroup
             row
+            aria-labelledby="transaction-type-label"
             name="type"
             value={value}
             onChange={onChange}

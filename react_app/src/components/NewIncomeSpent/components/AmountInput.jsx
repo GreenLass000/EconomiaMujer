@@ -11,6 +11,9 @@ const AmountInput = ({
     step = "any"
 }) => (
     <TextField
+        id="transaction-amount"
+        name="amount"
+        autoComplete="off"
         fullWidth
         label={label}
         variant="outlined"

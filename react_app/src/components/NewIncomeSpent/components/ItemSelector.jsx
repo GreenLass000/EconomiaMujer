@@ -10,6 +10,9 @@ const ItemSelector = ({
     required = true
 }) => (
     <TextField
+        id="transaction-item"
+        name="item"
+        autoComplete="off"
         fullWidth
         select
         label={label}

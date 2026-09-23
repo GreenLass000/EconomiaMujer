@@ -9,6 +9,9 @@ const EditRecordDialog = ({ open, data, setData, onClose, onSave }) => (
     <DialogTitle>Editar Registro</DialogTitle>
     <DialogContent>
       <TextField
+        id="edit-list-record-concept"
+        name="concept"
+        autoComplete="off"
         fullWidth
         label="Concepto"
         value={data?.concept || ''}
@@ -16,6 +19,9 @@ const EditRecordDialog = ({ open, data, setData, onClose, onSave }) => (
         margin="normal"
       />
       <TextField
+        id="edit-list-record-description"
+        name="description"
+        autoComplete="off"
         fullWidth
         label="Descripción"
         value={data?.description || ''}
@@ -23,6 +29,9 @@ const EditRecordDialog = ({ open, data, setData, onClose, onSave }) => (
         margin="normal"
       />
       <TextField
+        id="edit-list-record-amount"
+        name="amount"
+        autoComplete="off"
         fullWidth
         label="Cantidad"
         type="number"
