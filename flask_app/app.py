@@ -4,12 +4,7 @@ from utils import init_db
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={
-     r"/*": {"origins": [
-         "http://localhost:3000",
-         "http://192.168.1.130:3000",
-         "http://192.168.1.118:3000"
-     ]}})
+CORS(app)
 
 # Inicializar la base de datos
 init_db()
