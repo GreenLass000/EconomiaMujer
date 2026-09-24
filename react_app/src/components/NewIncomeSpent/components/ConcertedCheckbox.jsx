@@ -5,6 +5,8 @@ const ConcertedCheckbox = ({ checked, onChange, disabled = false }) => (
     <FormControlLabel
         control={
             <Checkbox
+                id="transaction-concerted"
+                name="isConcerted"
                 checked={checked}
                 onChange={onChange}
                 disabled={disabled}
